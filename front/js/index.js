@@ -4,7 +4,6 @@ function afficherItem(item) {
     clone.querySelector(".productDescription").innerHTML = item.description;
     clone.querySelector(".canapImg").src = item.imageUrl; 
     clone.querySelector(".canapImg").alt = item.altTxt;
-    console.log(item._id)
     clone.href = "./product.html?id=" + item._id;
     document.getElementById("items").appendChild(clone);
 }
@@ -23,3 +22,5 @@ fetch("http://localhost:3000/api/products/")
     .catch(function(err){
         console.log("Une erreur est survenue")
 });
+// ..  récupération de l'array Products avec un fetch pour récupérer le contenu. Création d'une boucle forEach pour sortir les différentes lignes composant l'array
+// ..  ici les différentes fiches produits (CANAPE : nom/image/description/altTxt etc)  
