@@ -91,4 +91,4 @@ document.querySelector(".cart__order__form__question").addEventListener('input',
     } else {
         isValid = false;
     }
-});
+}); 
