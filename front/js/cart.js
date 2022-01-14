@@ -50,7 +50,7 @@ function supprimerProduit() {
     localStorage.clear();
 }
 
-function send (e) {
+function send () {
     let contact = {
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
@@ -64,8 +64,8 @@ function send (e) {
         products.push(item.id);
     };
     let body = {contact: contact, products: products};
+    console.log(body);
     
-    e.preventDefault();
     fetch("http://localhost:3000/api/products/order", {
         method: "POST",
         headers: {
@@ -80,15 +80,13 @@ function send (e) {
         }
     })
     .then(function(value) {
-        localStorage.setItem("order", value);
+        console.log(value);
+        localStorage.setItem("order", value.orderId);
+        window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html";
     })
 }
 
-document.querySelector(".cart__order__form__question").addEventListener('input', function (e) {
-    let value = e.target.value;
-    if (value.startsWith('^[a-z\s]*$')) {
-        isValid = true;
-    } else {
-        isValid = false;
-    }
-}); 
+document.querySelector("#order").addEventListener('click', function (e){
+    e.preventDefault();
+    send();
+});
