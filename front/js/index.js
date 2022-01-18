@@ -1,6 +1,7 @@
+// Création d'une fonction qui va afficher les canapés et leur caractéristiques (images, nom, prix, description...) à l'aide du DOM. 
 function afficherItem(item) {
     var clone = document.querySelector(".link").cloneNode(true);
-    clone.querySelector(".productName").innerHTML = item.name; // création fonction qui permet de cloner et remplacer les éléments.
+    clone.querySelector(".productName").innerHTML = item.name; // Création fonction qui permet de cloner et remplacer les éléments.
     clone.querySelector(".productDescription").innerHTML = item.description;
     clone.querySelector(".canapImg").src = item.imageUrl; 
     clone.querySelector(".canapImg").alt = item.altTxt;

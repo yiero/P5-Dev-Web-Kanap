@@ -5,6 +5,7 @@ let canap;
 
 async function showCart() {  
     let totalPriceCart = 0;  
+    // Création d'une boucle pour chaque éléments présent dans le localStorage afin de les fetch un par un pour accéder à leur spécifications techniques.
     for (var i = 0; i < cart.length; i++) {
         canap = cart[i];
         cartFetch = "http://localhost:3000/api/products/" + canap.id; 
@@ -23,6 +24,8 @@ async function showCart() {
     }
     document.querySelector(".cart__item").remove();
 
+    // Calcul du prix total des articles contenus dans le panier, ainsi que le prix total des canapés (si nous avons 3 canapés identiques par exemple, multiplier son prix par 3).
+    // Ensuite afficher la valeur pour l'utilisateur grâce au DOM.
     const reducer = (accumulator, curr) => accumulator + curr;
     let totalQuantity = cart.map(cart => cart.qte).reduce(reducer);
     document.querySelector("#totalQuantity").innerHTML = totalQuantity;
@@ -33,6 +36,7 @@ async function showCart() {
 
 showCart();
 
+// Création d'un clone du html que l'on bouclera sur la fonction ci-dessus, pour pouvoir afficher chaque produits enregistrer dans le localStorage en détail.
 function getProduit(produit, qte) {
     const totalPrice = produit.price * qte;
     var cloneProduct = document.querySelector(".cart__item").cloneNode(true);
@@ -50,6 +54,9 @@ function supprimerProduit() {
     localStorage.clear();
 }
 
+// Création du fetch avec une méthode POST. A l'inverse des fetch précédents nous allons envoyer des informations à l'API (le formulaire complet et un tableau contenant son panier).
+// En retour on récupérera la réponse (ici le numéro de commande généré par l'API).
+// Pour terminer, on redirige l'utilisateur sur la page "confirmation" à l'aide d'un window.location.href et de l'url de la page.
 function send () {
     let contact = {
         firstName: document.getElementById("firstName").value,
@@ -86,6 +93,7 @@ function send () {
     })
 }
 
+// Utilisation de la fonction précédente lorsque l'on clique sur le bouton "commander".
 document.querySelector("#order").addEventListener('click', function (e){
     e.preventDefault();
     send();
