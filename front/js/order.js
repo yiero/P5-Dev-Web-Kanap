@@ -1,4 +1,6 @@
-let order = localStorage.getItem('order');
+let url = window.location.search;
+urlSearch = new URLSearchParams(url);
+let order = urlSearch.get("id");
 
 document.querySelector("#orderId").innerHTML = order;
 

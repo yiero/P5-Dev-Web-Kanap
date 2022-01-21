@@ -30,8 +30,6 @@ async function showCart() {
     let totalQuantity = cart.map(cart => cart.qte).reduce(reducer);
     document.querySelector("#totalQuantity").innerHTML = totalQuantity;
     document.querySelector("#totalPrice").innerHTML = totalPriceCart;
-
-    //document.getElementById("order").addEventListener("click", supprimerProduit);
 }
 
 showCart();
@@ -45,13 +43,20 @@ function getProduit(produit, qte) {
     cloneProduct.querySelector("#canap_cart_img").src = produit.imageUrl;
     cloneProduct.querySelector("#canap_cart_img").alt = produit.altTxt;     
     cloneProduct.querySelector(".itemQuantity").value = qte;
+    cloneProduct.querySelector(".deleteItem").addEventListener("click", supprimerProduit);
     document.getElementById("cart__items").appendChild(cloneProduct);
 
     return totalPrice;
 }
 
 function supprimerProduit() {
-    localStorage.clear();
+    let produit = JSON.parse(localStorage.getItem('myCart'));
+    console.log(produit);
+    let index = produit.indexOf(produit.id);
+    produit.splice(index, 1);
+    console.log(produit);
+    localStorage.setItem('myCart', JSON.stringify(produit));
+    location.reload(); //suppression non ciblé, uniquement la dernière ligne
 }
 
 // Création du fetch avec une méthode POST. A l'inverse des fetch précédents nous allons envoyer des informations à l'API (le formulaire complet et un tableau contenant son panier).
@@ -87,9 +92,8 @@ function send () {
         }
     })
     .then(function(value) {
-        console.log(value);
-        localStorage.setItem("order", value.orderId);
-        window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html";
+        //localStorage.setItem("order", value.orderId);
+        window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html" + "?id=" + value.orderId;
     })
 }
 
