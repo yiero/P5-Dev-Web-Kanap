@@ -14,7 +14,7 @@ function afficherProduit(produits){
     // boucle for qui permettra d'afficher les couleurs disponibles dans le menu déroulant.
     for (let i = 0; i < produits.colors.length; i++) {
         let option = document.createElement("option");
-        option.value = i;
+        option.value = produits.colors[i];
         option.text = produits.colors[i];
         document.querySelector("#colors").appendChild(option);
     }
@@ -35,7 +35,6 @@ fetch(urlFetch)
     console.log("Une erreur est survenue")
 });
 
-
 document.getElementById("addToCart").addEventListener("click", ajouterPanier);
 
 // Fonction utiliser au-dessus, qui s'éxecute au moment du click sur le bouton "ajouter au panier".
@@ -51,14 +50,45 @@ function ajouterPanier() {
         panier = JSON.parse(localStorage.getItem("myCart"));
     }
     
-    for (var i = 0; i < panier.length; i++) {
-        console.log(panier[i].id); 
-    }
-    
     let quantity =  parseInt(document.querySelector("#quantity").value);
-    let canap = {id: ID, qte: quantity}
+    let name = document.querySelector("#title").innerHTML;
+    let canap = {id: ID, qte: quantity, name: name, color: getColor()};
     if (canap.qte > 0) {
         panier.push(canap);
-        localStorage.setItem("myCart", JSON.stringify(panier));
+    }
+    trierPanier(panier);
+    localStorage.setItem("myCart", JSON.stringify(panier)); 
+    
+    for (var i = 0; i < panier.length; i++) {
+        if (panier[i].id === ID) {
+            panier.splice([i], 1, panier[i].qte + quantity);
+        }
+        console.log(panier[i].id); 
     }
 };
+
+//Trier le tableau pour avoir les produits par ordre alphabétique sur la page panier
+function trierPanier(panier) {
+    panier.sort(function compare (a, b){
+        if (a.name < b.name){
+          return -1;
+      }
+      else if (a.name > b.name){
+          return 1;
+      }
+      else {
+      return 0;
+      }
+      
+    })
+};
+
+// Stocker la couleur sélectionnée dans le localStorage
+function getColor() {
+    let select = document.getElementById("colors");
+    let choice = select.selectedIndex  // Récupération de l'index du <option> choisi
+     
+    let valeur_cherchee = select.options[choice].value;
+    return valeur_cherchee; 
+};
+

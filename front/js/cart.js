@@ -16,7 +16,7 @@ async function showCart() {
             }
         }) 
         .then(function(produit){
-            totalPriceCart += getProduit(produit, canap.qte);
+            totalPriceCart += getProduit(produit, canap.qte, canap.color);
         })
         .catch(function(err){
             console.log("Une erreur est survenue")
@@ -35,7 +35,7 @@ async function showCart() {
 showCart();
 
 // Création d'un clone du html que l'on bouclera sur la fonction ci-dessus, pour pouvoir afficher chaque produits enregistrer dans le localStorage en détail.
-function getProduit(produit, qte) {
+function getProduit(produit, qte, color) {
     const totalPrice = produit.price * qte;
     var cloneProduct = document.querySelector(".cart__item").cloneNode(true);
     cloneProduct.querySelector("#name_product").innerHTML = produit.name;
@@ -43,6 +43,7 @@ function getProduit(produit, qte) {
     cloneProduct.querySelector("#canap_cart_img").src = produit.imageUrl;
     cloneProduct.querySelector("#canap_cart_img").alt = produit.altTxt;     
     cloneProduct.querySelector(".itemQuantity").value = qte;
+    cloneProduct.querySelector("#color").innerHTML = color;
     cloneProduct.querySelector(".deleteItem").addEventListener("click", supprimerProduit);
     document.getElementById("cart__items").appendChild(cloneProduct);
 
@@ -51,10 +52,8 @@ function getProduit(produit, qte) {
 
 function supprimerProduit() {
     let produit = JSON.parse(localStorage.getItem('myCart'));
-    console.log(produit);
     let index = produit.indexOf(produit.id);
     produit.splice(index, 1);
-    console.log(produit);
     localStorage.setItem('myCart', JSON.stringify(produit));
     location.reload(); //suppression non ciblé, uniquement la dernière ligne
 }
@@ -92,7 +91,6 @@ function send () {
         }
     })
     .then(function(value) {
-        //localStorage.setItem("order", value.orderId);
         window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html" + "?id=" + value.orderId;
     })
 }
