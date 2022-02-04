@@ -42,30 +42,35 @@ document.getElementById("addToCart").addEventListener("click", ajouterPanier);
 // sur la page "panier" par exemple.
 // Pour résumer, à chaque clique sur le bouton "ajouter au panier" nous allons sauvegarder notre produit ce-dernier sera conservé tout au long de notre session sur la page.
 function ajouterPanier() {
+    let panier = getPanier(); 
+    let quantity = parseInt(document.querySelector("#quantity").value);
+    let name = document.querySelector("#title").innerHTML;
+    let canap = {id: ID, qte: quantity, name: name, color: getColor()};
+
+    if (canap.qte > 0 && canap.color != ""){
+        let index = findCanapInCart(canap.id, canap.color, panier);
+        if (index === -1) {
+            panier.push(canap);
+        } else {
+            canap.qte = panier[index].qte + quantity;
+            panier[index] = canap;
+        }
+    }
+    trierPanier(panier);
+    localStorage.setItem("myCart", JSON.stringify(panier)); 
+    
+};
+
+function getPanier(){
     let panier;
-   
+
     if (localStorage.getItem("myCart") === null) {
         panier = [];
     } else {
         panier = JSON.parse(localStorage.getItem("myCart"));
     }
-    
-    let quantity =  parseInt(document.querySelector("#quantity").value);
-    let name = document.querySelector("#title").innerHTML;
-    let canap = {id: ID, qte: quantity, name: name, color: getColor()};
-    if (canap.qte > 0) {
-        panier.push(canap);
-    }
-    trierPanier(panier);
-    localStorage.setItem("myCart", JSON.stringify(panier)); 
-    
-    for (var i = 0; i < panier.length; i++) {
-        if (panier[i].id === ID) {
-            panier.splice([i], 1, panier[i].qte + quantity);
-        }
-        console.log(panier[i].id); 
-    }
-};
+    return panier;
+}
 
 //Trier le tableau pour avoir les produits par ordre alphabétique sur la page panier
 function trierPanier(panier) {
@@ -92,3 +97,11 @@ function getColor() {
     return valeur_cherchee; 
 };
 
+function findCanapInCart(id, color, panier) {
+    for (var i = 0; i < panier.length; i++) {
+        if (panier[i].id === id && panier[i].color === color) {
+            return i
+        }
+    }
+    return -1
+}
