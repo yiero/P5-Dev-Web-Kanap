@@ -61,6 +61,7 @@ function ajouterPanier() {
     
 };
 
+// Création d'un tableau panier (si non existant), ou récupération de ce-dernier (si existant)
 function getPanier(){
     let panier;
 
@@ -97,6 +98,7 @@ function getColor() {
     return valeur_cherchee; 
 };
 
+// Comparaison d'un produit ayant le même id et la même couleur pour éviter les doublons 
 function findCanapInCart(id, color, panier) {
     for (var i = 0; i < panier.length; i++) {
         if (panier[i].id === id && panier[i].color === color) {

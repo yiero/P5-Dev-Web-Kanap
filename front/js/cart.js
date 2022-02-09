@@ -2,6 +2,7 @@ let cart = JSON.parse(localStorage.getItem('myCart'));
 let cartFetch;
 let canap; 
 
+// afficher le contenu du panier
 async function showCart() {  
     let totalPriceCart = 0;  
     // Création d'une boucle pour chaque éléments présent dans le localStorage afin de les fetch un par un pour accéder à leur spécifications techniques.
@@ -53,7 +54,7 @@ function getProduit(produit, qte, color, i) {
     return totalPrice;
 }
 
-
+//Suppression d'un produit du panier
 function supprimerProduit(i) {
     console.log(cart[i]);
     let index = cart.indexOf(cart[i]);
