@@ -1,4 +1,3 @@
-
 let cart = JSON.parse(localStorage.getItem('myCart'));
 let cartFetch;
 let canap; 
@@ -16,12 +15,13 @@ async function showCart() {
             }
         }) 
         .then(function(produit){
-            totalPriceCart += getProduit(produit, canap.qte, canap.color);
+            totalPriceCart += getProduit(produit, canap.qte, canap.color, i); 
         })
         .catch(function(err){
             console.log("Une erreur est survenue")
         })
     }
+    
     document.querySelector(".cart__item").remove();
 
     // Calcul du prix total des articles contenus dans le panier, ainsi que le prix total des canapés (si nous avons 3 canapés identiques par exemple, multiplier son prix par 3).
@@ -35,7 +35,7 @@ async function showCart() {
 showCart();
 
 // Création d'un clone du html que l'on bouclera sur la fonction ci-dessus, pour pouvoir afficher chaque produits enregistrer dans le localStorage en détail.
-function getProduit(produit, qte, color) {
+function getProduit(produit, qte, color, i) { 
     const totalPrice = produit.price * qte;
     var cloneProduct = document.querySelector(".cart__item").cloneNode(true);
     cloneProduct.querySelector("#name_product").innerHTML = produit.name;
@@ -44,19 +44,25 @@ function getProduit(produit, qte, color) {
     cloneProduct.querySelector("#canap_cart_img").alt = produit.altTxt;     
     cloneProduct.querySelector(".itemQuantity").value = qte;
     cloneProduct.querySelector("#color").innerHTML = color;
-    cloneProduct.querySelector(".deleteItem").addEventListener("click", supprimerProduit);
+    const elt = cloneProduct.querySelector(".deleteItem");
+    elt.addEventListener('click', function () {         
+        supprimerProduit(i);              
+    });
     document.getElementById("cart__items").appendChild(cloneProduct);
 
     return totalPrice;
 }
 
 
-function supprimerProduit() {
-    let produit = JSON.parse(localStorage.getItem('myCart'));
-    produit.splice(produit[i], 1);
-    localStorage.setItem('myCart', JSON.stringify(produit));
-    location.reload(); //suppression non ciblé, uniquement la dernière ligne
-}
+function supprimerProduit(i) {
+    console.log(cart[i]);
+    let index = cart.indexOf(cart[i]);
+    if (index > -1) {
+        cart.splice(index, 1)
+    }
+    localStorage.setItem('myCart', JSON.stringify(cart));
+    location.reload(); 
+};
 
 // Création du fetch avec une méthode POST. A l'inverse des fetch précédents nous allons envoyer des informations à l'API (le formulaire complet et un tableau contenant son panier).
 // En retour on récupérera la réponse (ici le numéro de commande généré par l'API).
