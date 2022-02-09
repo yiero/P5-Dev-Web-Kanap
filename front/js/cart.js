@@ -50,10 +50,10 @@ function getProduit(produit, qte, color) {
     return totalPrice;
 }
 
+
 function supprimerProduit() {
     let produit = JSON.parse(localStorage.getItem('myCart'));
-    let index = produit.indexOf(produit.id);
-    produit.splice(index, 1);
+    produit.splice(produit[i], 1);
     localStorage.setItem('myCart', JSON.stringify(produit));
     location.reload(); //suppression non ciblé, uniquement la dernière ligne
 }
