@@ -1,6 +1,6 @@
 let url = window.location.search;
 urlSearch = new URLSearchParams(url);
-let order = urlSearch.get("id");
+let order = urlSearch.get("order");
 
 document.querySelector("#orderId").innerHTML = order;
 

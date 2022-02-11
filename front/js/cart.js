@@ -44,6 +44,9 @@ function getProduit(produit, qte, color, i) {
     cloneProduct.querySelector("#canap_cart_img").src = produit.imageUrl;
     cloneProduct.querySelector("#canap_cart_img").alt = produit.altTxt;     
     cloneProduct.querySelector(".itemQuantity").value = qte;
+    cloneProduct.querySelector(".itemQuantity").addEventListener('change', function(event) {
+        updateQuantity(event, i);
+    });
     cloneProduct.querySelector("#color").innerHTML = color;
     const elt = cloneProduct.querySelector(".deleteItem");
     elt.addEventListener('click', function () {         
@@ -54,12 +57,18 @@ function getProduit(produit, qte, color, i) {
     return totalPrice;
 }
 
+//Mise à jour de la quantité grâce à l'input.
+function updateQuantity(e, i) {
+    let value = parseInt(e.target.value);
+    cart[i].qte = value;
+    localStorage.setItem('myCart', JSON.stringify(cart));
+    location.reload();
+};
+
 //Suppression d'un produit du panier
 function supprimerProduit(i) {
-    console.log(cart[i]);
-    let index = cart.indexOf(cart[i]);
-    if (index > -1) {
-        cart.splice(index, 1)
+    if (i > -1) {
+        cart.splice(i, 1)
     }
     localStorage.setItem('myCart', JSON.stringify(cart));
     location.reload(); 
@@ -76,13 +85,13 @@ function send () {
         city: document.getElementById("city").value,
         email: document.getElementById("email").value,
     };
+    
     let products = [];
     for (const item of cart) {
         console.log(item);
         products.push(item.id);
     };
     let body = {contact: contact, products: products};
-    console.log(body);
     
     fetch("http://localhost:3000/api/products/order", {
         method: "POST",
@@ -98,7 +107,7 @@ function send () {
         }
     })
     .then(function(value) {
-        window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html" + "?id=" + value.orderId;
+        window.location.href = "D:/Workspace/Dev/P5-Dev-Web-Kanap/front/html/confirmation.html" + "?order=" + value.orderId;
     })
 }
 
@@ -107,3 +116,5 @@ document.querySelector("#order").addEventListener('click', function (e){
     e.preventDefault();
     send();
 });
+
+// pour vérifer formulaire, regarder addEventListener 'change' 
