@@ -125,41 +125,36 @@ document.querySelector("#order").addEventListener('click', function (e){
     let onlyText = /^([a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]+)$/;
     let textAndNumber = /([0-9a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ])/;
     let validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    // créer variable regex
+
+    document.getElementById("firstNameErrorMsg").innerHTML = "";
+    document.getElementById("lastNameErrorMsg").innerHTML = "";
+    document.getElementById("addressErrorMsg").innerHTML = "";
+    document.getElementById("cityErrorMsg").innerHTML = "";
+    document.getElementById("emailErrorMsg").innerHTML = "";
     
     if (! firstName.value.match(onlyText)) {
         document.getElementById("firstNameErrorMsg").innerHTML = "Prénom invalide";
         isFormValid = false;
-    } else {
-        document.getElementById("firstNameErrorMsg").innerHTML = "";
-    }
+    } 
 
     if (! lastName.value.match(onlyText)) {
         document.getElementById("lastNameErrorMsg").innerHTML = "Nom invalide";
         isFormValid = false;
-    } else {
-        document.getElementById("lastNameErrorMsg").innerHTML = "";
     }
 
     if (! address.value.match(textAndNumber)) {
         document.getElementById("addressErrorMsg").innerHTML = "Adresse invalide";
         isFormValid = false;
-    } else {
-        document.getElementById("addressErrorMsg").innerHTML = "";
     }
 
     if (! city.value.match(onlyText)) {
         document.getElementById("cityErrorMsg").innerHTML = "Ville inexistante";
         isFormValid = false;
-    } else {
-        document.getElementById("cityErrorMsg").innerHTML = "";
     }
 
     if (! email.value.match(validEmail)) {
         document.getElementById("emailErrorMsg").innerHTML = "Email Invalide";
         isFormValid = false;
-    } else {
-        document.getElementById("emailErrorMsg").innerHTML = "";
     }
 
     if (isFormValid) {
