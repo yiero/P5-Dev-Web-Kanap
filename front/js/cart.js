@@ -122,8 +122,8 @@ document.querySelector("#order").addEventListener('click', function (e){
     let city = document.getElementById("city");
     let email = document.getElementById("email");
 
-    let onlyText = /^([a-zA-Z ]+)$/;
-    let textAndNumber = /([0-9a-zA-Z])/;
+    let onlyText = /^([a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]+)$/;
+    let textAndNumber = /([0-9a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ])/;
     let validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     // créer variable regex
     
