@@ -111,10 +111,58 @@ function send () {
     })
 }
 
-// Utilisation de la fonction précédente lorsque l'on clique sur le bouton "commander".
+// Vérification des données entrées par l'utilisateur dans le formulaire par le biais de regex
 document.querySelector("#order").addEventListener('click', function (e){
     e.preventDefault();
-    send();
-});
 
-// pour vérifer formulaire, regarder addEventListener 'change' 
+    let isFormValid = true;
+    let firstName = document.getElementById("firstName");
+    let lastName = document.getElementById("lastName");
+    let address = document.getElementById("address");
+    let city = document.getElementById("city");
+    let email = document.getElementById("email");
+
+    let onlyText = /^([a-zA-Z ]+)$/;
+    let textAndNumber = /([0-9a-zA-Z])/;
+    let validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    // créer variable regex
+    
+    if (! firstName.value.match(onlyText)) {
+        document.getElementById("firstNameErrorMsg").innerHTML = "Prénom invalide";
+        isFormValid = false;
+    } else {
+        document.getElementById("firstNameErrorMsg").innerHTML = "";
+    }
+
+    if (! lastName.value.match(onlyText)) {
+        document.getElementById("lastNameErrorMsg").innerHTML = "Nom invalide";
+        isFormValid = false;
+    } else {
+        document.getElementById("lastNameErrorMsg").innerHTML = "";
+    }
+
+    if (! address.value.match(textAndNumber)) {
+        document.getElementById("addressErrorMsg").innerHTML = "Adresse invalide";
+        isFormValid = false;
+    } else {
+        document.getElementById("addressErrorMsg").innerHTML = "";
+    }
+
+    if (! city.value.match(onlyText)) {
+        document.getElementById("cityErrorMsg").innerHTML = "Ville inexistante";
+        isFormValid = false;
+    } else {
+        document.getElementById("cityErrorMsg").innerHTML = "";
+    }
+
+    if (! email.value.match(validEmail)) {
+        document.getElementById("emailErrorMsg").innerHTML = "Email Invalide";
+        isFormValid = false;
+    } else {
+        document.getElementById("emailErrorMsg").innerHTML = "";
+    }
+
+    if (isFormValid) {
+        send()
+    }
+});
