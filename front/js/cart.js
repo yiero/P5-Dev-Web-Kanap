@@ -60,8 +60,10 @@ function getProduit(produit, qte, color, i) {
 //Mise à jour de la quantité grâce à l'input.
 function updateQuantity(e, i) {
     let value = parseInt(e.target.value);
-    cart[i].qte = value;
-    localStorage.setItem('myCart', JSON.stringify(cart));
+    if (value > 0) {
+        cart[i].qte = value;
+        localStorage.setItem('myCart', JSON.stringify(cart));
+    }
     location.reload();
 };
 
