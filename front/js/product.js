@@ -55,6 +55,9 @@ function ajouterPanier() {
             canap.qte = panier[index].qte + quantity;
             panier[index] = canap;
         }
+        alert("Un produit a été ajouté à votre panier !");
+    } else {
+        alert("Veuillez sélectionner un couleur ET une quantité valide !");
     }
     trierPanier(panier);
     localStorage.setItem("myCart", JSON.stringify(panier)); 
